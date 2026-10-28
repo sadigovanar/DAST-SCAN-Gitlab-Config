@@ -5,11 +5,8 @@ services:
 
 stages:
   - build
-  - test
-  - release
-  - preprod
-  - integration
   - prod
+  - test
 
 variables:
   DOCKER_DRIVER: overlay2
