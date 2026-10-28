@@ -43,7 +43,7 @@ nikto:
   stage: test
   script:
     - docker pull hysnsec/nikto
-    - docker run --rm -v $(pwd):/tmp hysnsec/nikto -h http://prod-9od418a1.lab.practical-devsecops.training -o /tmp/nikto-output.xml
+    - docker run --rm -v $(pwd):/tmp hysnsec/nikto -h https://$TARGET-URL -o /tmp/nikto-output.xml
   artifacts:
     paths: [nikto-output.xml]
     when: always
@@ -52,7 +52,7 @@ sslyze:
   stage: test
   script:
     - docker pull hysnsec/sslyze
-    - docker run --rm -v $(pwd):/tmp hysnsec/sslyze prod-9od418a1.lab.practical-devsecops.training:443 --json_out /tmp/sslyze-output.json
+    - docker run --rm -v $(pwd):/tmp hysnsec/sslyze $TARGET-URL --json_out /tmp/sslyze-output.json
   artifacts:
     paths: [sslyze-output.json]
     when: always
@@ -61,7 +61,7 @@ nmap:
   stage: test
   script:
     - docker pull hysnsec/nmap
-    - docker run --rm -v $(pwd):/tmp hysnsec/nmap prod-9od418a1 -oX /tmp/nmap-output.xml
+    - docker run --rm -v $(pwd):/tmp hysnsec/nmap $TARGET-SERVER -oX /tmp/nmap-output.xml
   artifacts:
     paths: [nmap-output.xml]
     when: always
