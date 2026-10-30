@@ -61,7 +61,7 @@ nmap:
   stage: test
   script:
     - docker pull hysnsec/nmap
-    - docker run --rm -v $(pwd):/tmp hysnsec/nmap $TARGET-SERVER -oX /tmp/nmap-output.xml
+    - docker run --rm -v $(pwd):/tmp hysnsec/nmap ${TARGET_URL} -oX /tmp/nmap-output.xml
   artifacts:
     paths: [nmap-output.xml]
     when: always
