@@ -14,7 +14,7 @@ variables:
 build:
   stage: build
   before_script:
-    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+    - docker login -u "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}" <<< "${CI_REGISTRY_PASSWORD}"
   script:
     - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA . # Build the application into Docker image
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA # Push the image into registry
