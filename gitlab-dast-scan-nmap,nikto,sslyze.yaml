@@ -16,8 +16,8 @@ build:
   before_script:
     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
   script:
-    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA .  # Build the application into Docker image
-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA        # Push the image into registry
+    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA . # Build the application into Docker image
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA # Push the image into registry
 
 prod:
   stage: prod
@@ -43,25 +43,28 @@ nikto:
   stage: test
   script:
     - docker pull hysnsec/nikto
-    - docker run --rm -v $(pwd):/tmp hysnsec/nikto -h https://$TARGET-URL -o /tmp/nikto-output.xml
+    - docker run --rm -v $(pwd):/tmp hysnsec/nikto -h https://${TARGET-URL} -o /tmp/nikto-output.xml
   artifacts:
     paths: [nikto-output.xml]
     when: always
+allow_failure: false
 
 sslyze:
   stage: test
   script:
     - docker pull hysnsec/sslyze
-    - docker run --rm -v $(pwd):/tmp hysnsec/sslyze $TARGET-URL --json_out /tmp/sslyze-output.json
+    - docker run --rm -v $(pwd):/tmp hysnsec/sslyze ${TARGET-URL} --json_out /tmp/sslyze-output.json
   artifacts:
     paths: [sslyze-output.json]
     when: always
+  allow_failure: false
 
 nmap:
   stage: test
   script:
     - docker pull hysnsec/nmap
-    - docker run --rm -v $(pwd):/tmp hysnsec/nmap $TARGET-SERVER -oX /tmp/nmap-output.xml
+    - docker run --rm -v $(pwd):/tmp hysnsec/nmap ${TARGET-SERVER} -oX /tmp/nmap-output.xml
   artifacts:
     paths: [nmap-output.xml]
     when: always
+  allow_failure: false
