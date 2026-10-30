@@ -52,7 +52,7 @@ sslyze:
   stage: test
   script:
     - docker pull hysnsec/sslyze
-    - docker run --rm -v $(pwd):/tmp hysnsec/sslyze $TARGET-URL --json_out /tmp/sslyze-output.json
+    - docker run --rm -v $(pwd):/tmp hysnsec/sslyze {$TARGET-SERVER} --json_out /tmp/sslyze-output.json
   artifacts:
     paths: [sslyze-output.json]
     when: always
@@ -61,7 +61,7 @@ nmap:
   stage: test
   script:
     - docker pull hysnsec/nmap
-    - docker run --rm -v $(pwd):/tmp hysnsec/nmap $TARGET-SERVER -oX /tmp/nmap-output.xml
+    - docker run --rm -v $(pwd):/tmp hysnsec/nmap {$TARGET-SERVER} -oX /tmp/nmap-output.xml
   artifacts:
     paths: [nmap-output.xml]
     when: always
